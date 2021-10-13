@@ -2,6 +2,7 @@ from test_app.api.serializers import MovieSerializer
 from test_app.models import Movie
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 
 @api_view(['GET', 'POST'])
 def movie_list(request):
@@ -23,7 +24,10 @@ def movie_list(request):
 def movie_details(request, pk):
     
     if request.method == 'GET':
-        movies = Movie.objects.get(pk=pk)
+        try:
+            movies = Movie.objects.get(pk=pk)
+        except Movie.DoesNotExist:
+            return Response({'Error':'Movie not Found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = MovieSerializer(movies)
         return Response(serializer.data)
     
@@ -34,9 +38,9 @@ def movie_details(request, pk):
             serializer.save()
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
         movies = Movie.objects.get(pk=pk)
         movies.delete()
-        return Response()
+        return Response(status=status.HTTP_204_NO_CONTENT)
