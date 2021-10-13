@@ -19,15 +19,12 @@ def movie_list(request):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
-    
-@api_view(['GET', 'PUT', 'DELETE'])   
+        
+@api_view(['GET', 'PUT', 'DELETE'])
 def movie_details(request, pk):
     
     if request.method == 'GET':
-        try:
-            movies = Movie.objects.get(pk=pk)
-        except Movie.DoesNotExist:
-            return Response({'Error':'Movie not Found'}, status=status.HTTP_404_NOT_FOUND)
+        movies = Movie.objects.get(pk=pk)
         serializer = MovieSerializer(movies)
         return Response(serializer.data)
     
@@ -37,10 +34,10 @@ def movie_details(request, pk):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+   
     elif request.method == 'DELETE':
         movies = Movie.objects.get(pk=pk)
         movies.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
