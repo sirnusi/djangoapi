@@ -24,7 +24,10 @@ def movie_list(request):
 def movie_details(request, pk):
     
     if request.method == 'GET':
-        movies = Movie.objects.get(pk=pk)
+        try:
+            movies = Movie.objects.get(pk=pk)
+        except Movie.DoesNotExist:
+            return Response({'error':'not found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = MovieSerializer(movies)
         return Response(serializer.data)
     
