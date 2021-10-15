@@ -1,31 +1,41 @@
 from rest_framework import serializers
-from test_app.models import Movie
+from test_app.models import Notes
 
-class MovieSerializer(serializers.ModelSerializer):
+class NoteSerializer(serializers.ModelSerializer):
+    len_name = serializers.SerializerMethodField()
+    
+   
     class Meta:
-        model = Movie
-        fields = ['id', 'name', 'description']
+        model = Notes
+        fields = '__all__'
         #fields = ['id', 'name', 'description']
         #exclude = ['active']
     
+    def get_len_name(self, obj):
+        return len(obj.name)
+        
+    # def validate(self, data):
+    #     if data['name'] == data['description']:
+    #         raise serializers.ValidationError("Name and Description can't be the same!!!")
+    #     else:
+    #         return data
     
-    def validate(self, data):
-        if data['name'] == data['description']:
-            raise serializers.ValidationError("Name and Description can't be the same!!!")
-        else:
-            return data
+    # def validate_name(self, value):
+    #     if len(value) < 2:
+    #         raise serializers.ValidationError('Name is too Short')
+        
+    #     if value.startswith != value.upper:
+    #         raise serializers.ValidationError("Use your head a name starts with an upper case")
+        
+    #     else:
+    #         return value
+        
     
-    def validate_name(self, value):
-        if len(value) < 2:
-            raise serializers.ValidationError('Name is too Short')
-        else:
-            return value
-    
-    def validate_description(self, value):
-        if value.startswith != value.upper:
-            raise serializers.ValidationError('Plase start with an upper case')
-        else:
-            return value
+    # def validate_description(self, value):
+    #     if value.startswith != value.upper:
+    #         raise serializers.ValidationError('Plase start with an upper case')
+    #     else:
+    #         return value
     # def validate_description(self, value):
     #     if value != value.startswith(value.upper()):
     #         raise serializers.ValidationError("Please start with an upper case")

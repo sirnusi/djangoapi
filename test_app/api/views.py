@@ -1,19 +1,20 @@
-from test_app.api.serializers import MovieSerializer
-from test_app.models import Movie
+from test_app.api.serializers import NoteSerializer
+from test_app.models import Note
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from test_app.api.serializers import NoteSerializer
 
 
-class MovieList(APIView):
+class NoteList(APIView):
     
     def get(self, request):
-        movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
+        notes = Note.objects.all()
+        serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data)
     
     def post(self, request):
-        serializer = MovieSerializer(data=request.data)
+        serializer = NoteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -21,16 +22,16 @@ class MovieList(APIView):
             return Response(serializer.errors)
     
     
-class MovieDetail(APIView):
+class NoteDetail(APIView):
     
     def get(self, request, pk):
-        movies = Movie.objects.get(pk=pk)
-        serializer = MovieSerializer(movies)
+        notes = Note.objects.get(pk=pk)
+        serializer = NoteSerializer(notes)
         return Response(serializer.data)
     
     def put(self, request, pk):
-        movies = Movie.objects.get(pk=pk)
-        serializer = MovieSerializer(movies, data=request.data)
+        notes = Note.objects.get(pk=pk)
+        serializer = NoteSerializer(notes, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -38,8 +39,8 @@ class MovieDetail(APIView):
             return Response(serializer.errors)
 
     def delete(self, request, pk):
-        movies = Movie.objects.get(pk=pk)
-        movies.delete()
+        notes = Note.objects.get(pk=pk)
+        notes.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # @api_view(['GET', 'POST'])
