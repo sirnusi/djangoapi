@@ -19,11 +19,9 @@ class NoteList(APIView):
             serializer.save()
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
-    
-    
+            return Response(serializer.errors, status=status.HTTP_204_NO_CONTENT)
+
 class NoteDetail(APIView):
-    
     def get(self, request, pk):
         notes = Note.objects.get(pk=pk)
         serializer = NoteSerializer(notes)
@@ -36,13 +34,14 @@ class NoteDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
-
+            return Response(serializer.errors, status=status.HTTP_204_NO_CONTENT)
+    
     def delete(self, request, pk):
         notes = Note.objects.get(pk=pk)
         notes.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
+            
+        
 # @api_view(['GET', 'POST'])
 # def movie_list(request):
     
