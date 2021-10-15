@@ -3,7 +3,7 @@ from test_app.models import Note
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from test_app.api.serializers import NoteSerializer
+
 
 
 class NoteList(APIView):
