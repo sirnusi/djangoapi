@@ -1,9 +1,14 @@
 from rest_framework import serializers
-from test_app.models import Note
+from test_app.models import Note, Category
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
+        fields = '__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
         fields = '__all__'
         
     # def validate(self, data):

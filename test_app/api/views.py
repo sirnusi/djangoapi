@@ -1,5 +1,5 @@
-from test_app.api.serializers import NoteSerializer
-from test_app.models import Note
+from test_app.api.serializers import NoteSerializer, CategorySerializer
+from test_app.models import Note, Category
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
@@ -41,7 +41,21 @@ class NoteDetail(APIView):
         notes.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
             
-        
+
+class CategoryList(APIView):
+    
+    def get(self, request):
+        category = Category.objects.all()
+        serializer = CategorySerializer(category, many=True)        
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
 # @api_view(['GET', 'POST'])
 # def movie_list(request):
     
