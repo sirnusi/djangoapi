@@ -1,18 +1,10 @@
 from rest_framework import serializers
-from test_app.models import Notes
+from test_app.models import Note
 
 class NoteSerializer(serializers.ModelSerializer):
-    len_name = serializers.SerializerMethodField()
-    
-   
     class Meta:
-        model = Notes
+        model = Note
         fields = '__all__'
-        #fields = ['id', 'name', 'description']
-        #exclude = ['active']
-    
-    def get_len_name(self, obj):
-        return len(obj.name)
         
     # def validate(self, data):
     #     if data['name'] == data['description']:
