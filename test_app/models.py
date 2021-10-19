@@ -33,4 +33,4 @@ class Review(models.Model):
 
     
     def __str__(self):
-        return self.rating
+        return f'{str(self.rating)} - {self.notes}'

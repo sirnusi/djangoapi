@@ -1,7 +1,15 @@
+from django.db import models
 from rest_framework import serializers
-from test_app.models import Note, Category
+from test_app.models import Note, Category, Review
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Review
+        fields = '__all__'
 class NoteSerializer(serializers.ModelSerializer):
+    review = ReviewSerializer(many=True, read_only=True)
     class Meta:
         model = Note
         fields = '__all__'
@@ -12,7 +20,9 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
-        
+    
+
+
     # def validate(self, data):
     #     if data['name'] == data['description']:
     #         raise serializers.ValidationError("Name and Description can't be the same!!!")
