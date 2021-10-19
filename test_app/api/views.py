@@ -1,61 +1,33 @@
-from test_app.api.serializers import NoteSerializer, CategorySerializer
-from test_app.models import Note, Category
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.views import APIView
+from test_app.api.serializers import NoteSerializer, CategorySerializer, ReviewSerializer
+from test_app.models import Note, Category, Review
+from rest_framework import generics
 
 
 
-class NoteList(APIView):
-    
-    def get(self, request):
-        notes = Note.objects.all()
-        serializer = NoteSerializer(notes, many=True)
-        return Response(serializer.data)
-    
-    def post(self, request):
-        serializer = NoteSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_204_NO_CONTENT)
+class ReviewList(generics.ListCreateAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
-class NoteDetail(APIView):
-    def get(self, request, pk):
-        notes = Note.objects.get(pk=pk)
-        serializer = NoteSerializer(notes)
-        return Response(serializer.data)
-    
-    def put(self, request, pk):
-        notes = Note.objects.get(pk=pk)
-        serializer = NoteSerializer(notes, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_204_NO_CONTENT)
-    
-    def delete(self, request, pk):
-        notes = Note.objects.get(pk=pk)
-        notes.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-            
+class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
-class CategoryList(APIView):
-    
-    def get(self, request):
-        category = Category.objects.all()
-        serializer = CategorySerializer(category, many=True)        
-        return Response(serializer.data)
-    
-    def post(self, request):
-        serializer = CategorySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+class NoteList(generics.ListCreateAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+
+class NoteDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
 # @api_view(['GET', 'POST'])
 # def movie_list(request):
     
