@@ -9,7 +9,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = '__all__'
 class NoteSerializer(serializers.ModelSerializer):
-    review = ReviewSerializer(many=True, read_only=True)
+    reviews = ReviewSerializer(many=True, read_only=True)
     class Meta:
         model = Note
         fields = '__all__'
