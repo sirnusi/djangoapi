@@ -8,6 +8,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     categories = NoteSerializer(many=True, read_only=True)
+    # categories = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='movie_details')
     class Meta:
         model = Category
         fields = '__all__'
