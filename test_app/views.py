@@ -1,15 +1,8 @@
+from .serializers import NoteSerializer
 from .models import Note
-from django.http import JsonResponse
+from rest_framework.response import Response
 
 def note_list(request):
     notes = Note.objects.all()
-    data = {'movies': list(notes.values())}
-    return JsonResponse(data)
-
-def note_detail(request, pk):
-    notes = Note.objects.get(pk=pk)
-    data = {
-        'title': notes.title,
-        'description': notes.description,
-    }
-    return JsonResponse(data)
+    serializer = NoteSerializer(notes)
+    return Response(serializer.data)
