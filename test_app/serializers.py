@@ -1,7 +1,12 @@
+from django.db.models import fields
 from rest_framework import serializers
-from .models import Note
+from .models import WatchList, StreamPlatform
 
-class NoteSerializer(serializers.ModelSerializer):
+class StreamPlatformSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Note
+        model = StreamPlatform
+        fields = "__all__"
+class WatchListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WatchList
         fields = "__all__"
