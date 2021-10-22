@@ -2,6 +2,7 @@ from .serializers import NoteSerializer
 from .models import Note
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 
 @api_view(['GET', 'POST'])
 def note_list(request):
@@ -39,4 +40,4 @@ def note_detail(request, pk):
     if request.method == 'DELETE':
         notes = Note.objects.get(pk=pk)
         notes.delete()
-        return Response()
+        return Response(status=status.HTTP_204_NO_CONTENT)
