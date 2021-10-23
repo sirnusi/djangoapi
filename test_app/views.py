@@ -28,7 +28,7 @@ class StreamPlatformDetail(APIView):
     
     def put(self, request, pk):
         stream_platform = StreamPlatform.objects.get(pk=pk)
-        serializer = StreamPlatformSerializer(stream_platform)
+        serializer = StreamPlatformSerializer(stream_platform, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
