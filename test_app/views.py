@@ -9,7 +9,7 @@ class StreamPlatformList(APIView):
     
     def get(self, request):
         stream_platform = StreamPlatform.objects.all()
-        serializer = StreamPlatformSerializer(stream_platform, many=True)
+        serializer = StreamPlatformSerializer(stream_platform, many=True, context={'request': request})
         return Response(serializer.data)
     
     def post(self, request):
@@ -22,8 +22,11 @@ class StreamPlatformList(APIView):
 class StreamPlatformDetail(APIView):
     
     def get(self, request, pk):
-        stream_platform = StreamPlatform.objects.get(pk=pk)
-        serializer = StreamPlatformSerializer(stream_platform)
+        try:
+            stream_platform = StreamPlatform.objects.get(pk=pk)
+        except StreamPlatform.DoesNotExist:
+            return Response({'Error':'Platform Not Found'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = StreamPlatformSerializer(stream_platform, context={'request': request})
         return Response(serializer.data)
     
     def put(self, request, pk):
