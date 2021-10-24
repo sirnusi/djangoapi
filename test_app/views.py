@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 
+
 class StreamPlatformList(APIView):
     
     def get(self, request):
