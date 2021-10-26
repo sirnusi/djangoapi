@@ -1,12 +1,22 @@
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 from test_app.models import WatchList, StreamPlatform, Review
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
 
 
-class ReviewList(ListCreateAPIView):
-    queryset = Review.objects.all()
+class ReviewCreate(CreateAPIView):
+    serializer_class = ReviewSerializer
+    
+    def perform_create(self, serializer):
+        pk = self.kwargs.get('pk')
+        watchlist = WatchList.objects.get(pk=pk)
+        
+        serializer.save(watchlist=watchlist)
+class ReviewList(ListAPIView):
     serializer_class = ReviewSerializer
 
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watchlist=pk)
 
 class ReviewDetail(RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
