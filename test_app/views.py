@@ -1,7 +1,10 @@
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from test_app.models import WatchList, StreamPlatform, Review
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
+
+
 
 
 class ReviewCreate(CreateAPIView):
@@ -22,6 +25,7 @@ class ReviewCreate(CreateAPIView):
         serializer.save(watchlist=watchlist, owner=owner)
 class ReviewList(ListAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
