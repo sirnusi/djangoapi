@@ -8,8 +8,8 @@ urlpatterns = [
     path('stream/<int:pk>/', views.StreamPlatformDetail.as_view(), name='streamplatform-detail'),
     # path('reviews/', views.ReviewList.as_view(), name='review-list'),
     # path('reviews/<int:pk>/', views.ReviewDetail.as_view(), name='review-detail')
-    path('stream/<int:pk>/review-create', views.ReviewCreate.as_view(), name='review-create'), # pk is for the actual movie you want to review on
-    path('stream/<int:pk>/review', views.ReviewList.as_view(), name='review-list'), # list out all the reviews for a particular movie
-    path('stream/review/<int:pk>/', views.ReviewDetail.as_view(), name='review-detail'), # access individual review to update, destroy, retrieve
+    path('<int:pk>/review-create/', views.ReviewCreate.as_view(), name='review-create'), # pk is for the actual movie you want to review on
+    path('<int:pk>/reviews/', views.ReviewList.as_view(), name='review-list'), # list out all the reviews for a particular movie
+    path('review/<int:pk>/', views.ReviewDetail.as_view(), name='review-detail'), # access individual review to update, destroy, retrieve
     
 ]
