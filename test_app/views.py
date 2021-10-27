@@ -2,9 +2,8 @@ from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSe
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from test_app.models import WatchList, StreamPlatform, Review
-from .permissions import AdminOrReadOnly
+from .permissions import AdminOrReadOnly, ReviewOwnerOnly
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
-
 
 
 
@@ -35,7 +34,7 @@ class ReviewList(ListAPIView):
 class ReviewDetail(RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer 
-    permission_classes = [AdminOrReadOnly]
+    permission_classes = [ReviewOwnerOnly]
     
 class StreamPlatformList(ListCreateAPIView):
     queryset = StreamPlatform.objects.all()
