@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from rest_frameworks import Response
 from rest_framework.generics import CreateAPIView
 from .serializers import RegistrationSerializer
 
