@@ -22,6 +22,14 @@ class ReviewCreate(CreateAPIView):
         if owner_queryset.exists():
             raise ValidationError("You have reviewed this movie!")
         
+        if watchlist.number_rating == 0:
+            watchlist.avg_rating = serializer.validated_data['rating']
+        else:
+            watchlist.avg_rating = (watchlist.avg_rating + serializer.validated_data['rating']) / 2
+        
+        watchlist.number_rating += 1
+        watchlist.save()
+        
         serializer.save(watchlist=watchlist, owner=owner)
 class ReviewList(ListAPIView):
     serializer_class = ReviewSerializer
@@ -35,6 +43,7 @@ class ReviewDetail(RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer 
     permission_classes = [ReviewOwnerOnly]
+    
     
 class StreamPlatformList(ListCreateAPIView):
     queryset = StreamPlatform.objects.all()
