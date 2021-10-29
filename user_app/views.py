@@ -21,5 +21,5 @@ def register_user(request):
             token = Token.objects.get(user=account).key
             data['token'] = token
         else:
-            return serializer.errors
+            return Response(serializer.errors)
         return Response(serializer.data)
