@@ -9,6 +9,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 
 class ReviewCreate(CreateAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         return Review.objects.all()
@@ -33,7 +34,7 @@ class ReviewCreate(CreateAPIView):
         serializer.save(watchlist=watchlist, owner=owner)
 class ReviewList(ListAPIView):
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticated]
+    
 
     def get_queryset(self):
         pk = self.kwargs['pk']
