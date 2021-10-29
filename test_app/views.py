@@ -48,17 +48,19 @@ class ReviewDetail(RetrieveUpdateDestroyAPIView):
 class StreamPlatformList(ListCreateAPIView):
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
-    
+    permission_classes = [AdminOrReadOnly]
     
 class StreamPlatformDetail(RetrieveUpdateDestroyAPIView):
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
-    
+    permission_classes = [AdminOrReadOnly]
     
 class WatchListAV(ListCreateAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
+    permission_classes = [AdminOrReadOnly]
     
 class WatchDetail(RetrieveUpdateDestroyAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
+    permission_classes = [AdminOrReadOnly]
