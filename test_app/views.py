@@ -3,8 +3,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from test_app.models import WatchList, StreamPlatform, Review
 from .permissions import AdminOrReadOnly, ReviewOwnerOnly
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
 from rest_framework.throttling import ScopedRateThrottle
+from rest_framework import filters
 from test_app.throttling import ReviewCreateThrottle, ReviewListThrottle
 
 class UserReview(ListAPIView):
@@ -48,6 +50,8 @@ class ReviewCreate(CreateAPIView):
 class ReviewList(ListAPIView):
     serializer_class = ReviewSerializer
     throttle_classes = [ReviewListThrottle]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['owner__username', 'active']
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -70,7 +74,16 @@ class StreamPlatformDetail(RetrieveUpdateDestroyAPIView):
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
     permission_classes = [AdminOrReadOnly]
+
+class WatchListSearch(ListAPIView):
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
+    # filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.OrderingFilter]
+    # search_fields = ['title', 'platform__name']
+    ordering_fields = ['avg_rating']
     
+
 class WatchListAV(ListCreateAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'test_app.apps.TestAppConfig', 
     'rest_framework', 
     'rest_framework.authtoken', 
-    'django_filter'
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -130,6 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
+     
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
