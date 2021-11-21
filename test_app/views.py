@@ -7,6 +7,14 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.throttling import ScopedRateThrottle
 from test_app.throttling import ReviewCreateThrottle, ReviewListThrottle
 
+class UserReview(ListAPIView):
+    serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return Review.objects.filter(owner__username=username)
+    
+
 class ReviewCreate(CreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
