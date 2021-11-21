@@ -11,6 +11,6 @@ urlpatterns = [
     path('<int:pk>/review-create/', views.ReviewCreate.as_view(), name='review-create'), # pk is for the actual movie you want to review on
     path('<int:pk>/reviews/', views.ReviewList.as_view(), name='review-list'), # list out all the reviews for a particular movie
     path('<int:pk>/review-detail/', views.ReviewDetail.as_view(), name='review-detail'), # access individual review to update, destroy, retrieve
-    path('reviews/<str:username>/', views.UserReview.as_view(), name='user-username'),
+    path('reviews/', views.UserReview.as_view(), name='user-username'),
 
 ]
