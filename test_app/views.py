@@ -8,7 +8,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import filters
 from test_app.throttling import ReviewCreateThrottle, ReviewListThrottle
-from test_app.pagination import WatchListPagination
+from test_app.pagination import WatchListPagination, WatchListCursorPagination
 
 class UserReview(ListAPIView):
     serializer_class = ReviewSerializer
@@ -80,10 +80,14 @@ class WatchListSearch(ListAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
     # filter_backends = [filters.SearchFilter]
-    filter_backends = [filters.OrderingFilter]
+    
+    # filter_backends = [filters.OrderingFilter]
+    
     # search_fields = ['title', 'platform__name']
-    ordering_fields = ['avg_rating']
-    pagination_class = WatchListPagination
+    
+    # ordering_fields = ['avg_rating']
+    
+    pagination_class = WatchListCursorPagination
     
 
 class WatchListAV(ListCreateAPIView):
