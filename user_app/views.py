@@ -28,4 +28,4 @@ def register_user(request):
             data['token'] = token
         else:
             return Response(serializer.errors)
-        return Response(serializer.data)
+        return Response(serializer.data, status.HTTP_201_CREATED)

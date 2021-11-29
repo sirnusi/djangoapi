@@ -15,4 +15,4 @@ class RegisterTestCase(APITestCase):
             'password' : 'NewPassword@123'
         }
         response = self.client.post(reverse('register'), data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
