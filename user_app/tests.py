@@ -15,4 +15,18 @@ class RegisterTestCase(APITestCase):
             'password' : 'NewPassword@123'
         }
         response = self.client.post(reverse('register'), data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+
+class LoginLogoutTestCase(APITestCase):
+    
+    def setUp(self):
+        self.user = User.objects.create_user(username='example', password='NewPassword@123')
+    
+    def test_login(self):
+        data = {
+            'username': 'example',
+            'password': 'NewPassword@123'
+        }
+        response = self.client.post(reverse('login'), data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
