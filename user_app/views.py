@@ -28,8 +28,9 @@ def registration_view(request):
             
             token = Token.objects.get(user=account).key
             data['token'] = token
-            return Response(data)
+            
             
         else:
-            return Response(data=serializer.errors)
+            data = serializer.errors
+        return Response(data)
         
