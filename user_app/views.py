@@ -13,19 +13,9 @@ def logout_view(request):
         return Response(status=status.HTTP_200_OK)
 
 @api_view(['POST'])
-def register_user(request):
+def registration_view(request):
     if request.method == 'POST':
         serializer = RegistrationSerializer(data=request.data)
-        
-        data = {}
         if serializer.is_valid():
-            account = serializer.save()
-            data['response'] = 'Registration Successfull.'
-            data['username'] = account.username
-            data['email'] = account.email
-            
-            token = Token.objects.get(user=account).key
-            data['token'] = token
-        else:
-            return Response(serializer.errors)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data)

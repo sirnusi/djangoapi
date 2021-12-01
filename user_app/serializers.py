@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(write_only=True, style={'input_type':'password'})
+    password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'password2']
@@ -12,13 +12,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
         
     def save(self):
         password = self.validated_data['password']
-        password2 = self.validated_data['password2']
+        password2 = self.validated_data['password2'] 
             
         if password != password2:
             raise serializers.ValidationError({'error':'Password 1 and 2 are not the same'})
             
-        queryset = User.objects.filter(email=self.validated_data['email'])
-        if queryset.exists():
+        about = User.objects.filter(email=self.validated_data['email'])
+        if about.exists():
             raise serializers.ValidationError({'error': 'Email already exists'})
 
         account = User(email=self.validated_data['email'], username=self.validated_data['username'])
