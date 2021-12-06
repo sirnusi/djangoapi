@@ -81,3 +81,36 @@ class WatchListTestCase(APITestCase):
     def test_watchlist_delete(self):
         response = self.client.delete(reverse('watch-detail', args=(self.watchlist.id, )))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        
+
+class ReviewTestCase(APITestCase):
+    
+    def setUp(self):
+        self.user = User.objects.create(username='example', password='NewPassword123')
+        self.token = Token.objects.get(user__username=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        
+        self.stream = models.StreamPlatform.objects.create(name='Netflix', about='#1 in the World', 
+                                                           website='https://netflix.com')
+        self.watchlist = models.WatchList.objects.create(title='Wonderland', storyline='About Harry Potter',
+                                                        platform=self.stream, active=False)
+        
+    def test_review_create(self):
+        data = {
+            'owner': self.user,
+            'rating':4,
+            'description': 'Stupid Movie!!!',
+            'watchlist': self.watchlist,
+            'active': True
+        }
+        response = self.client.post(reverse('review-create', args=(self.watchlist.id, )), data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.WatchList.objects.get().title, 'Wonderland')
+        
+    def test_review_list(self):
+        response = self.client.get(reverse('review-list', args=(self.watchlist.id, )))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_review_detail(self):
+        response = self.client.get(reverse('review-detail'), args=(self.watchlist.id))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
