@@ -50,6 +50,7 @@ class ReviewCreate(CreateAPIView):
         serializer.save(watchlist=watchlist, owner=owner)
 class ReviewList(ListAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
     throttle_classes = [ReviewListThrottle]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['owner__username', 'active']
